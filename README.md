@@ -1,3 +1,7 @@
+# Demo
+
+* [deepstream-demo](apps/deepstream-demo) -- msgbroker for sending analytics results to the cloud analytics, msgbroker, RTSP output
+
 # DeepStream Python Apps
 
 This repository contains Python bindings and sample applications for the [DeepStream SDK](https://developer.nvidia.com/deepstream-sdk).  
