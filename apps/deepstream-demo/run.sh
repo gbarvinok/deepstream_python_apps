@@ -1,0 +1,1 @@
+python3 deepstream_test_4.py -i ../../../../samples/streams/sample_720p.h264 -p /opt/nvidia/deepstream/deepstream-5.0/lib/libnvds_amqp_proto.so -c cfg_amqp.txt -s 0 --no-display

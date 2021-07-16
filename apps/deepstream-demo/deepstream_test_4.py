@@ -516,16 +516,16 @@ def main(args):
 
     streammux.link(pgie)
     pgie.link(nvvidconv)
-    nvvidconv.link(nvosd)
-    nvosd.link(tee)
-    nvosd.link(nvvidconv_postosd)
+    nvvidconv.link(nvosd) ##
+    nvosd.link(tee) ##
+    nvosd.link(nvvidconv_postosd) ##
     queue1.link(msgconv)
     msgconv.link(msgbroker)
-    if is_aarch64() and not no_display:
-        queue2.link(transform)
-        transform.link(sink)
-    else:
-        queue2.link(sink)
+    # if is_aarch64() and not no_display:
+    #     queue2.link(transform)
+    #     transform.link(sink)
+    # else:
+    #     queue2.link(sink)
     sink_pad=queue1.get_static_pad("sink")
     tee_msg_pad=tee.get_request_pad('src_%u')
     tee_render_pad=tee.get_request_pad("src_%u")
