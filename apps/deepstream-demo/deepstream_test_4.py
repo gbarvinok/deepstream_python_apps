@@ -399,6 +399,11 @@ def main(args):
     queue2=Gst.ElementFactory.make("queue", "nvtee-que2")
     if not queue2:
         sys.stderr.write(" Unable to create queue2 \n")
+
+    queue3=Gst.ElementFactory.make("queue", "nvtee-que2")
+    if not queue2:
+        sys.stderr.write(" Unable to create queue2 \n")
+
     nvvidconv_postosd = Gst.ElementFactory.make("nvvideoconvert", "convertor_postosd")
     if not nvvidconv_postosd:
         sys.stderr.write(" Unable to create nvvidconv_postosd \n")
@@ -486,6 +491,7 @@ def main(args):
     pipeline.add(tee)
     pipeline.add(queue1)
     pipeline.add(queue2)
+    pipeline.add(queue3)
     pipeline.add(msgconv)
     pipeline.add(msgbroker)
     pipeline.add(nvvidconv_postosd)
@@ -516,8 +522,8 @@ def main(args):
 
     streammux.link(pgie)
     pgie.link(nvvidconv)
-    nvvidconv.link(nvosd) ##
-    nvosd.link(tee) ##
+    nvvidconv.link(nvosd) 
+    nvosd.link(tee) 
     queue1.link(msgconv)
     msgconv.link(msgbroker)
     # if is_aarch64() and not no_display:
@@ -527,16 +533,16 @@ def main(args):
     #     queue2.link(sink)
 
     ### ???
-    # sink_pad=queue1.get_static_pad("sink")
-    # tee_msg_pad=tee.get_request_pad('src_%u')
-    # tee_render_pad=tee.get_request_pad("src_%u")
-    # if not tee_msg_pad or not tee_render_pad:
-    #     sys.stderr.write("Unable to get request pads\n")
-    # tee_msg_pad.link(sink_pad)
-    # sink_pad=queue2.get_static_pad("sink")
-    # tee_render_pad.link(sink_pad)
+    sink_pad=queue1.get_static_pad("sink")
+    tee_msg_pad=tee.get_request_pad('src_%u')
+    tee_render_pad=tee.get_request_pad("src_%u")
+    if not tee_msg_pad or not tee_render_pad:
+        sys.stderr.write("Unable to get request pads\n")
+    tee_msg_pad.link(sink_pad)
+    sink_pad=queue2.get_static_pad("sink")
+    tee_render_pad.link(sink_pad)
 
-    queue2.link(nvvidconv_postosd)
+    queue3.link(nvvidconv_postosd)
     nvvidconv_postosd.link(caps)
     caps.link(encoder)
     encoder.link(rtppay)
